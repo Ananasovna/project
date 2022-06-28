@@ -1,10 +1,21 @@
 'use strict';
 
-const textarea = document.getElementById('textarea');
-const button = document.getElementById('button');
+const textarea = document.querySelector('textarea');
+const button = document.querySelector('button');
+const script = document.querySelector('script');
 
-function logText() {
-  console.log(textarea.value);
+function sendMessage() {
+  let message = document.createElement('p');
+  message.className = 'message';
+  message.innerHTML = textarea.value;
+  script.before(message);
 }
 
-button.addEventListener('click', logText);
+function sendMessageByEnter(event) {
+  if (event.code == 'Enter') {
+    sendMessage();
+  };
+}
+
+button.addEventListener('click', sendMessage);
+document.addEventListener('keydown', sendMessageByEnter);

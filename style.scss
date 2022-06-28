@@ -8,4 +8,18 @@
 
 .textarea {
   display: block;
+  
+}
+
+.button {
+  background: rgb(174, 211, 229);
+  border: none;
+  padding: 10px;
+}
+
+.message {
+  width: 300px;
+  padding: 10px;
+  border: 2px solid rgb(174, 211, 229);
+  border-radius: 10px;
 }
