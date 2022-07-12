@@ -4,12 +4,15 @@ const textarea = document.querySelector('.textarea');
 const button = document.querySelector('.button');
 const script = document.querySelector('.script');
 const checkbox = document.querySelector('.checkbox');
+const body = document.querySelector('.body');
 const messages = [];
 
 function sendMessage() {
   const message = createMessage(textarea.value);
-  script.before(message);
-  clearTextarea();
+  if (/\S/.test(textarea.value)) {
+    script.before(message);
+    clearTextarea();
+  } 
 }
 
 function createMessage(innerText) {
@@ -18,7 +21,7 @@ function createMessage(innerText) {
   
   const text = document.createElement('p');
   text.innerHTML = innerText;
-
+  
   const button = document.createElement('button');
   button.className = 'message__delete-button';
   button.innerHTML = '&#128937';
@@ -39,16 +42,14 @@ function handleKeyboardEvent(event) {
 
 function clearTextarea() {
   textarea.value = '';
+  textarea.focus();
 }
 
-function showText() {
-  if (checkbox.checked == false) {
-    console.log('красный');
-  } else {
-    console.log('зеленый');
-  }
+function changeColorTheme() {
+  checkbox.checked == true ? body.classList.add('body_dark') : body.className = 'body';
 }
 
 button.addEventListener('click', sendMessage);
 document.addEventListener('keydown', handleKeyboardEvent);
-checkbox.addEventListener('click', showText);
+checkbox.addEventListener('click', changeColorTheme);
+
