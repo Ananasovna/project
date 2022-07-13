@@ -63,4 +63,3 @@ const newId = makeIdCounter();
 button.addEventListener('click', sendMessage);
 document.addEventListener('keydown', handleKeyboardEvent);
 checkbox.addEventListener('click', changeColorTheme);
-
