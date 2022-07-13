@@ -12,7 +12,6 @@ function sendMessage() {
   if (/\S/.test(textarea.value)) {
     script.before(message);
     message.dataset.id = newId();
-    console.log(message.dataset.id);
     clearTextarea();
   } 
 }
@@ -27,7 +26,7 @@ function createMessage(innerText) {
   const button = document.createElement('button');
   button.className = 'message__delete-button';
   button.innerHTML = '&#128937';
-  button.addEventListener('click', () => console.log(`Вы хотите удалить сообщение № ${messages.findIndex(item => item == element)}`));
+  button.addEventListener('click', () => console.log(`Вы хотите удалить сообщение № ${element.dataset.id}`));
   
   element.append(text);
   element.append(button);
