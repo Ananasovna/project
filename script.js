@@ -11,6 +11,8 @@ function sendMessage() {
   const message = createMessage(textarea.value);
   if (/\S/.test(textarea.value)) {
     script.before(message);
+    message.dataset.id = newId();
+    console.log(message.dataset.id);
     clearTextarea();
   } 
 }
@@ -48,6 +50,15 @@ function clearTextarea() {
 function changeColorTheme() {
   checkbox.checked == true ? body.classList.add('body_dark') : body.className = 'body';
 }
+
+function makeIdCounter() {
+  let count = 0;
+  return function() {
+    return count++;
+  };
+}
+
+const newId = makeIdCounter();
 
 button.addEventListener('click', sendMessage);
 document.addEventListener('keydown', handleKeyboardEvent);
