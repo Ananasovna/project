@@ -4,6 +4,12 @@
 
 .body {
   padding: 20px;
+  background: rgb(245, 252, 255);
+}
+
+.body_dark {
+  background: #292929;
+  color: rgb(245, 252, 255);
 }
 
 .textarea {
