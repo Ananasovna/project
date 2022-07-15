@@ -9,30 +9,30 @@ const messages = [];
 const messagesWrapper = document.createElement('div');
 const newId = makeIdCounter();
 
+messagesWrapper.classList.add('messages-wrapper');
+
 function Message(id, text) {
   this.id = id;
   this.text = text;
 }
 
 function generateMessages() {
+  if (textarea.value.trim()) {
   messages.push(new Message(newId(), textarea.value));
+  }
 }
 
 function sendMessage() {
   if (messagesWrapper) {
     messagesWrapper.innerHTML = '';
   }
-  messagesWrapper.classList.add('messages-wrapper');
   generateMessages();
   messages.forEach(item => {
-    if (/\S/.test(item.text)) {
-      messagesWrapper.append(createMessage(item));
-      clearTextarea();
-    }
-  });
-  console.log(messagesWrapper);
+    messagesWrapper.append(createMessage(item));
+    clearTextarea();
+    });
   script.before(messagesWrapper);
-  
+  console.log(messages);
 }
 
 function createMessage(message) {
@@ -74,8 +74,6 @@ function makeIdCounter() {
     return count++;
   };
 }
-
-
 
 button.addEventListener('click', sendMessage);
 document.addEventListener('keydown', handleKeyboardEvent);
