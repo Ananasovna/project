@@ -2,12 +2,12 @@
 
 const textarea = document.querySelector('.textarea');
 const button = document.querySelector('.button');
-const script = document.querySelector('.script');
 const checkbox = document.querySelector('.checkbox');
 const body = document.querySelector('.body');
 const messages = [];
 const messagesWrapper = document.createElement('div');
 const newId = makeIdCounter();
+const label = document.querySelector('label');
 
 messagesWrapper.classList.add('messages-wrapper');
 
@@ -31,13 +31,14 @@ function sendMessage() {
     messagesWrapper.append(createMessage(item));
     clearTextarea();
     });
-  script.before(messagesWrapper);
+  label.after(messagesWrapper);
   console.log(messages);
 }
 
 function createMessage(message) {
   const element = document.createElement('div');
   element.className = 'message';
+  element.dataset.id = message.id;
   
   const text = document.createElement('p');
   text.innerHTML = message.text;
@@ -45,12 +46,17 @@ function createMessage(message) {
   const button = document.createElement('button');
   button.className = 'message__delete-button';
   button.innerHTML = '&#128937';
-  button.addEventListener('click', () => console.log(`Вы хотите удалить сообщение № ${message.id}`));
+  button.addEventListener('click', deleteMessage);
   
   element.append(text);
   element.append(button);
   
   return element;
+}
+
+function deleteMessage() {
+  messages.splice(messages.indexOf(messages.find(item => item.id == event.target.parentNode.dataset.id)), 1);
+  sendMessage();
 }
 
 function handleKeyboardEvent(event) {
