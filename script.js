@@ -1,15 +1,45 @@
 'use strict';
 
+// import { CardsApi } from "./api/data";
+
+// CardsApi.setCards().then(res => { console.log(res)});
+
 const textarea = document.querySelector('.textarea');
 const button = document.querySelector('.button');
 const checkbox = document.querySelector('.checkbox');
 const body = document.querySelector('.body');
-const messages = [];
+let messages = [];
 const messagesWrapper = document.createElement('div');
 const newId = makeIdCounter();
 const label = document.querySelector('label');
 
 messagesWrapper.classList.add('messages-wrapper');
+
+function showWelcomeScreen() {
+
+  const welcomeScreenWrapper = document.createElement('div');
+  welcomeScreenWrapper.classList.add('welcome-screen-wrapper');
+
+  const welcomeText = document.createElement('p');
+  
+  welcomeText.classList.add('welcome-text');
+
+  const welcomeButton = document.createElement('button');
+  welcomeButton.innerHTML = 'Continue';
+  welcomeButton.classList.add('welcome-button');
+  welcomeButton.addEventListener('click', () => welcomeScreenWrapper.remove());
+
+  welcomeScreenWrapper.append(welcomeText);
+  welcomeScreenWrapper.append(welcomeButton);
+  body.prepend(welcomeScreenWrapper);
+
+  if (!localStorage.user) {
+    let userName = prompt('What\'s your name?');
+    localStorage.setItem('user', userName);
+  }
+
+  welcomeText.innerText = `Hello, ${localStorage.user}`;
+}
 
 function Message(id, text) {
   this.id = id;
@@ -32,13 +62,11 @@ function sendMessage() {
     clearTextarea();
     });
   label.after(messagesWrapper);
-  console.log(messages);
 }
 
 function createMessage(message) {
   const element = document.createElement('div');
   element.className = 'message';
-  element.dataset.id = message.id;
   
   const text = document.createElement('p');
   text.innerHTML = message.text;
@@ -46,17 +74,39 @@ function createMessage(message) {
   const button = document.createElement('button');
   button.className = 'message__delete-button';
   button.innerHTML = '&#128937';
-  button.addEventListener('click', deleteMessage);
+  button.addEventListener('click', () => deleteMessage(message.id));
   
   element.append(text);
   element.append(button);
+
+  element.addEventListener('dblclick', () => {
+    return correctMessage(message);
+  });
   
   return element;
 }
 
-function deleteMessage() {
-  messages.splice(messages.indexOf(messages.find(item => item.id == event.target.parentNode.dataset.id)), 1);
+function deleteMessage(id) {
+  messages = messages.filter(item => item.id !== id);
   sendMessage();
+}
+
+function correctMessage(message) {
+  const correctInput = document.createElement('input');
+  correctInput.classList.add('correct-input');
+  let eventTarget = event.target;
+
+  if (event.target.tagName == "P") {
+    eventTarget = event.target.parentNode;
+  }
+
+  messagesWrapper.replaceChild(correctInput, eventTarget);
+  
+  correctInput.value = message.text;
+  correctInput.addEventListener('change', () => {
+    message.text = correctInput.value;
+    sendMessage();
+  });
 }
 
 function handleKeyboardEvent(event) {
@@ -84,3 +134,4 @@ function makeIdCounter() {
 button.addEventListener('click', sendMessage);
 document.addEventListener('keydown', handleKeyboardEvent);
 checkbox.addEventListener('click', changeColorTheme);
+document.addEventListener('DOMContentLoaded', showWelcomeScreen);
