@@ -12,33 +12,15 @@ let messages = [];
 const messagesWrapper = document.createElement('div');
 const newId = makeIdCounter();
 const label = document.querySelector('label');
-const selectorMenu = document.querySelector('.selector-menu');
+const welcomeText = document.querySelector('.welcome-text');
 
 messagesWrapper.classList.add('messages-wrapper');
 
-function showWelcomeScreen() {
-
-  const welcomeScreenWrapper = document.createElement('div');
-  welcomeScreenWrapper.classList.add('welcome-screen-wrapper');
-
-  const welcomeText = document.createElement('p');
-  
-  welcomeText.classList.add('welcome-text');
-
-  const welcomeButton = document.createElement('button');
-  welcomeButton.innerHTML = 'Continue';
-  welcomeButton.classList.add('welcome-button');
-  welcomeButton.addEventListener('click', () => welcomeScreenWrapper.remove());
-
-  welcomeScreenWrapper.append(welcomeText);
-  welcomeScreenWrapper.append(welcomeButton);
-  body.prepend(welcomeScreenWrapper);
-
-  if (!localStorage.user) {
+function showWelcomeText() {
+    if (!localStorage.user) {
     let userName = prompt('What\'s your name?');
     localStorage.setItem('user', userName);
   }
-
   welcomeText.innerText = `Hello, ${localStorage.user}`;
 }
 
@@ -132,24 +114,35 @@ function makeIdCounter() {
   };
 }
 
-function openCloseSelectorMenu() {
-  if (!document.querySelector('.selector-menu-ul')) {
-    const menu = document.createElement('ul');
-    menu.classList.add('selector-menu-ul');
-    const options = ['От А до Я', 'От Я до А', 'По возрастанию', 'По убыванию'];
-    options.forEach(item => {
-    let li = document.createElement('li');
-    li.innerText = item;
-    menu.append(li);
-  })
-    selectorMenu.append(menu);
-  } else {
-    document.querySelector('.selector-menu-ul').remove();
+
+
+const selectorMenu = {
+  node: document.querySelector('.selector-menu'),
+  options: ['От А до Я', 'От Я до А', 'По возрастанию', 'По убыванию'],
+  isOpen: false,
+
+  openCloseSelectorMenu: function() {
+    if (!this.isOpen) {
+      this.menu = document.createElement('ul'),
+      this.menu.classList.add('selector-menu-ul'),
+
+      selectorMenu.options.forEach(item => {
+      let li = document.createElement('li');
+      li.innerText = item;
+      this.menu.append(li);
+    })
+
+      selectorMenu.node.append(this.menu);
+      this.isOpen = true;
+    } else {
+      this.menu.remove();
+      this.isOpen = false;
+    }
   }
-}
+};
 
 button.addEventListener('click', sendMessage);
 document.addEventListener('keydown', handleKeyboardEvent);
 checkbox.addEventListener('click', changeColorTheme);
-document.addEventListener('DOMContentLoaded', showWelcomeScreen);
-selectorMenu.addEventListener('click', openCloseSelectorMenu);
+document.addEventListener('DOMContentLoaded', showWelcomeText);
+selectorMenu.node.addEventListener('click', selectorMenu.openCloseSelectorMenu);
