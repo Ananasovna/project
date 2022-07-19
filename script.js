@@ -12,6 +12,7 @@ let messages = [];
 const messagesWrapper = document.createElement('div');
 const newId = makeIdCounter();
 const label = document.querySelector('label');
+const selectorMenu = document.querySelector('.selector-menu');
 
 messagesWrapper.classList.add('messages-wrapper');
 
@@ -131,7 +132,24 @@ function makeIdCounter() {
   };
 }
 
+function openCloseSelectorMenu() {
+  if (!document.querySelector('.selector-menu-ul')) {
+    const menu = document.createElement('ul');
+    menu.classList.add('selector-menu-ul');
+    const options = ['От А до Я', 'От Я до А', 'По возрастанию', 'По убыванию'];
+    options.forEach(item => {
+    let li = document.createElement('li');
+    li.innerText = item;
+    menu.append(li);
+  })
+    selectorMenu.append(menu);
+  } else {
+    document.querySelector('.selector-menu-ul').remove();
+  }
+}
+
 button.addEventListener('click', sendMessage);
 document.addEventListener('keydown', handleKeyboardEvent);
 checkbox.addEventListener('click', changeColorTheme);
 document.addEventListener('DOMContentLoaded', showWelcomeScreen);
+selectorMenu.addEventListener('click', openCloseSelectorMenu);
