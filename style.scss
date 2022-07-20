@@ -3,7 +3,7 @@
 }
 
 .body {
-  padding: 20px;
+  margin: 0;
   background:rgb(245, 252, 255);
 }
 
@@ -44,5 +44,44 @@
   }
 }
 
+.correct-input {
+  background: none;
+  width: 300px;
+  padding: 10px;
+  border: 2px solid rgb(174, 211, 229);
+  border-radius: 10px;
+}
 
+.textarea-wrapper {
+  display: flex;
+}
 
+.welcome-text-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.welcome-text {
+  padding: 5px;
+  background:rgb(91, 139, 163);
+  color: white;
+}
+
+.selector-menu {
+  width: 150px;
+  height: auto;
+  padding: 6px;
+  cursor: pointer;
+  background: rgba(174, 211, 229, 50%);
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  list-style-type: none;
+  margin: 0;
+  color: rgb(95, 95, 95);
+}
