@@ -1,8 +1,8 @@
 'use strict';
 
-// import { CardsApi } from "./api/data";
-
-// CardsApi.setCards().then(res => { console.log(res)});
+import { CardsApi } from "./api/data.js";
+// наша Api
+CardsApi.setCards().then(data => cards.generateCards(data));
 
 const textarea = document.querySelector('.textarea');
 const button = document.querySelector('.button');
@@ -13,6 +13,7 @@ const messagesWrapper = document.createElement('div');
 const newId = makeIdCounter();
 const label = document.querySelector('label');
 const welcomeText = document.querySelector('.welcome-text');
+const cardsWrapper = document.querySelector('.cards-wrapper');
 
 messagesWrapper.classList.add('messages-wrapper');
 
@@ -128,7 +129,9 @@ const selectorMenu = {
       let li = document.createElement('li');
       li.innerText = item;
       this.menu.append(li);
-      li.addEventListener('click', () => selectorMenu.chooseSelector.call(selectorMenu));
+      li.addEventListener('click', function() {
+        selectorMenu.chooseSelector.call(selectorMenu, item)
+      });
     })
 
       selectorMenu.node.append(this.menu);
@@ -139,10 +142,28 @@ const selectorMenu = {
     }
   },
 
-  chooseSelector() {
-    event.target.innerText == 'None' ? this.node.innerText = 'Сортировать по' : this.node.innerText = event.target.innerText;
+  chooseSelector(text) {
+    text == 'None' ? this.node.innerText = 'Сортировать по' : this.node.innerText = text;
   },
 };
+
+const cards = {
+  cardsAmount: 10,
+
+  generateCards(data) {
+    for (let i = 0; i < this.cardsAmount; i++) {
+      const card = document.createElement('div');
+      card.classList.add('card');
+      Object.entries(data[i]).forEach(function(item) {
+        const cardInformation = document.createElement('p');
+        cardInformation.innerText = `${item[0]}: ${item[1]}`;
+        card.append(cardInformation);
+      });
+      cardsWrapper.append(card);
+    }
+  },
+}
+
 
 button.addEventListener('click', sendMessage);
 document.addEventListener('keydown', handleKeyboardEvent);
