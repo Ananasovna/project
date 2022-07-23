@@ -55,6 +55,7 @@
 }
 
 .welcome-text-wrapper {
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -82,4 +83,16 @@ li {
   list-style-type: none;
   margin: 0;
   color: rgb(95, 95, 95);
+}
+
+.cards-wrapper {
+  display: flex;
+  gap: 5px;
+}
+
+.card {
+  border: 1px solid black;
+  display: inline;
+  width: 10%;
+  margin: 0;
 }/*# sourceMappingURL=style.css.map */
