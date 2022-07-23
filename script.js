@@ -114,14 +114,12 @@ function makeIdCounter() {
   };
 }
 
-
-
 const selectorMenu = {
   node: document.querySelector('.selector-menu'),
-  options: ['От А до Я', 'От Я до А', 'По возрастанию', 'По убыванию'],
+  options: ['None', 'От А до Я', 'От Я до А', 'По возрастанию', 'По убыванию'],
   isOpen: false,
 
-  openCloseSelectorMenu: function() {
+  openCloseSelectorMenu() {
     if (!this.isOpen) {
       this.menu = document.createElement('ul'),
       this.menu.classList.add('selector-menu-ul'),
@@ -130,6 +128,7 @@ const selectorMenu = {
       let li = document.createElement('li');
       li.innerText = item;
       this.menu.append(li);
+      li.addEventListener('click', () => selectorMenu.chooseSelector.call(selectorMenu));
     })
 
       selectorMenu.node.append(this.menu);
@@ -138,7 +137,11 @@ const selectorMenu = {
       this.menu.remove();
       this.isOpen = false;
     }
-  }
+  },
+
+  chooseSelector() {
+    event.target.innerText == 'None' ? this.node.innerText = 'Сортировать по' : this.node.innerText = event.target.innerText;
+  },
 };
 
 button.addEventListener('click', sendMessage);
